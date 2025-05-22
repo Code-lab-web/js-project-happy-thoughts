@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "js-project-movies",
+			"path": "../js-project-movies"
+		}
+	],
+	"settings": {}
+}
