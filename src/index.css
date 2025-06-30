@@ -12,7 +12,12 @@ import '@fontsource/roboto/700.css';
   rel="stylesheet"
   href="https://fonts.googleapis.com/icon?family=Material+Icons"
 />
+<<<<<<< HEAD
 :root {
+=======
+
+root {
+>>>>>>> 7e81284 (Add Roboto font and Material Icons to index.css)
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 .App {
