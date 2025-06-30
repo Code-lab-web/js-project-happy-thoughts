@@ -16,8 +16,8 @@
     "@mui/styled-engine-sc": "^7.2.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "styled-components": "^6.1.19"
   },
   "devDependencies": {
