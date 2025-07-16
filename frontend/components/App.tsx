@@ -1,33 +1,35 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
-import Card from './Card.tsx';
-import './index.css'
-import './components/Card.css'
-import './components/Card.tsx'
-import './components/Card.jsx'
-import './components/form.jsx'
-import './components/index.json'
-import './components/main.tsx'
-import './components/App.css'
-import './components/App.js'
-import './components/App.jsx'
-import './components/index.css'
-import './components/index.js'
-import './components/tests.ts'
-import './components/index.html'
-import './components/tests.tsx'
-import './form.css';
-import { Form } from './form'
-import './App.css';
-import './index.css';
-import main from './main.jsx';
-import Main from './main.tsx';
+import React, { useState } from "react";
+import { useEffect } from "react";
+import Card from "./Card.tsx";
+import "./index.css";
+import "./components/Card.css";
+import "./components/Card.tsx";
+import "./components/Card.js";
+import "./components/form.js";
+import "./components/index.json";
+import "./components/main.tsx";
+import "./components/App.css";
+import "./components/App.js";
+import "./components/App.js";
+import "./components/index.css";
+import "./components/index.js";
+import "./components/tests.ts";
+import "./components/index.html";
+import "./components/tests.tsx";
+import "./form.css";
+import { Form } from "./form.jsx";
+import "./App.css";
+import "./index.css";
+import main from "./main.js";
+import Main from "./main.tsx";
 
-fetch ("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts")
-fetch ("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/THOUGHT_ID/like")
-const [thoughts, setThoughts] = useState<{ message: string }[]>([])
+fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts");
+fetch(
+  "https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts/THOUGHT_ID/like"
+);
+const [thoughts, setThoughts] = useState<{ message: string }[]>([]);
 const handleFormSubmit = (event) => {
-  event.preventDefault()
+  event.preventDefault();
   fetch("<https://technigo-thoughts.herokuapp.com/>", {
     method: "POST",
     body: JSON.stringify({
@@ -37,10 +39,9 @@ const handleFormSubmit = (event) => {
   })
     .then((res) => res.json())
     .then((newThought) => {
-      setThoughts((previousThoughts) => [newThought, ...previousThoughts])
-    })
-}
-  
+      setThoughts((previousThoughts) => [newThought, ...previousThoughts]);
+    });
+};
 
 // if creating a Review as an object
 interface Review {
@@ -50,10 +51,10 @@ interface Review {
 }
 
 const App = () => {
-  const [selectedCard, setSelectedCard] = useState<string>('');
+  const [selectedCard, setSelectedCard] = useState<string>("");
   const [reviews, setReviews] = useState<Review[]>([]); // if implementing an array of reviews
-  const [review, setReview] = useState(''); // if implementing one review only, as string.
-  const [reviewText, setReviewText] = useState('');
+  const [review, setReview] = useState(""); // if implementing one review only, as string.
+  const [reviewText, setReviewText] = useState("");
 
   const handleCardSelect = (title: string) => {
     setSelectedCard(title);
@@ -63,7 +64,7 @@ const App = () => {
   const handleReviewSubmit = (e: React.FormEvent) => {
     e.preventDefault(); // stop from doing its default re render here.
     setReview(reviewText);
-    setReviewText('');
+    setReviewText("");
   };
 
   return (
@@ -79,14 +80,15 @@ const App = () => {
         />
       </div>
 
-
       <div className="message-section">
         <h2>Write a message</h2>
         <form onSubmit={handleReviewSubmit} className="message-form">
           <textarea
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
-            placeholder={`Write a thought for ${selectedCard || 'your thought'}...`}
+            placeholder={`Write a thought for ${
+              selectedCard || "your thought"
+            }...`}
             className="review-input"
             disabled={!selectedCard} // not able to write anything if not selected a message.
           />
@@ -100,14 +102,10 @@ const App = () => {
         </form>
 
         <div className="send-container">
+          <h3>Recent message</h3>
+          <p className="message-text">{review}</p>
 
-<h3>Recent message</h3>
-<p className="message-text">{review}</p>
-
-
-
-
-{/* IF creating an array of message with richer info, this is how to loop through and display them
+          {/* IF creating an array of message with richer info, this is how to loop through and display them
 <h3>Recent Message</h3>
 {message.map(message => (
 <div key={message.id} className="message-card">
@@ -117,10 +115,8 @@ const App = () => {
           ))} */}
         </div>
       </div>
-
-
     </main>
-  )
-}
+  );
+};
 
-export default App
+export default App;
