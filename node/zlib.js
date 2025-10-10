@@ -1101,4 +1101,17 @@ for (const { 0: key, 1: value } of ObjectEntries(constants)) {
     value,
     writable: false,
   });
+ },
+});
+
+// These should be considered deprecated
+// expose all the zlib constants
+for (const { 0: key, 1: value } of ObjectEntries(constants)) {
+  if (key.startsWith('BROTLI')) continue;
+  ObjectDefineProperty(module.exports, key, {
+    __proto__: null,
+    enumerable: false,
+    value,
+    writable: false,
+  });
 }
