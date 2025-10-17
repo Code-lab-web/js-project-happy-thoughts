@@ -1,19 +1,15 @@
 {
 	"folders": [
 		{
-<<<<<<< HEAD
 			"path": "."
 		},
 		{
 			"name": "js-project-movies",
 			"path": "../js-project-movies"
-=======
-			"path": "../js-project-happy-thoughts"
 		},
 		{
 			"name": "js-project-happy-thoughts-1",
 			"path": "."
->>>>>>> bcd4ca6 (git commit -m "Code-lab-web")
 		}
 	],
 	"settings": {}
