@@ -1,73 +1,42 @@
-import { Header } from "./components/Header";
-import { ThoughtForm } from "./components/ThoughtForm";
-import { ThoughtList } from "./components/ThoughtList"; // Removed duplicate declaration of App
-import { useState } from "react";
-import { useEffect } from "react";
-import "./components/App.css";
-import "./components/Card.css";
-import "./components/index.css";
+import React, { useEffect, useState } from "react";
+import "./index.css";
 
-import "./App.css";
+function Header() {
+    useEffect(() => {
+        console.log('mount')
+    }, [])
+    return (
+        <header className="App-header">
+            <h1>Message App Happy Thoughts</h1>
+        </header>
+    )
+}
 
-// Removed duplicate declaration of App
-
-export const App = () => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      console.log("scrolled!");
+export default function App() {
+    const [text, setText] = useState("");
+    const [error, setError] = useState("");
+    const handleChange = (e) => {
+        if (e.target.value.length > 140) {
+            setError("character limit exceeded");
+        } else {
+            setText(e.target.value);
+            setError(null);
+        }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts", {
-      signal: controller.signal,
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-
-    const intervalId = setInterval(() => {
-      fetch("https://happy-thoughts-ux7hkzgmwa-uc.a.run.app/thoughts", {
-        signal: controller.signal,
-      })
-        .then((response) => response.json())
-        .then((data) => console.log(data));
-
-      console.log("This runs every second");
-    }, 1000);
-
-    return () => {
-      clearInterval(intervalId);
-      controller.abort();
-    };
-  }, []);
-
-  return (
-    <>
-      <Header />
-      <main>
-        <ThoughtForm />
-        <ThoughtList />
-        <div>
-          <button onClick={() => setCount(count + 1)}>Increase count</button>
-          <button onClick={() => setCount(count - 1)}>Decrease count</button>
-          <button onClick={() => setCount(0)} disabled={count === 0}>
-            Reset
-          </button>
-          <button onClick={() => setCount(count * 2)}>Multiply</button>
-
-          <p>Count: {count}</p>
-          {count > 140 && <p>You hit 140!</p>}
+    return (
+        <div className="App">
+            <Header />
+            <div className="input-container">
+                <input
+                    className="input"
+                    type="text"
+                    placeholder=" enter something ..."
+                    onChange={handleChange}
+                    value={text}
+                />
+                <span className="error">{error && error}</span>
+            </div>
         </div>
-      </main>
-    </>
-  );
-};
+    );
+}
