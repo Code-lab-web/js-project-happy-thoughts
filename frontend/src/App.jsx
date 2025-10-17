@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./index.css";
+import "./Card.css";
 
 function Header() {
     useEffect(() => {

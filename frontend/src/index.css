@@ -12,7 +12,7 @@
 input {
   border: 1px solid #e4e4e7;
   padding: 0.5rem 0.5rem;
-  width: 320 - 1600px;
+  width: 320px;
 }
 .error {
   position: absolute;
@@ -20,4 +20,3 @@ input {
   left: 0;
   color: red;
 }
-
