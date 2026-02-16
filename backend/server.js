@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import bcrypt from 'bcrypt-nodejs';
 import bodyParser from 'body-parser';
 import crypto from "crypto";
+import rateLimit from "express-rate-limit";
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/auth";
 mongoose.connect(mongoUrl);
@@ -45,6 +46,17 @@ const authenticateUser = async (req, res, next) => {
 const port = process.env.PORT || 8080;
 const app = express();
 
+// Rate limiters
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 authenticated requests per windowMs
+});
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20, // limit each IP to 20 login/registration requests per windowMs
+});
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
@@ -55,7 +67,7 @@ app.get("/", (req, res) => {
   res.send("Hello Member!");
 });
 
-app.post('/users', async (req, res) => {
+app.post('/users', loginLimiter, async (req, res) => {
   try {
     const {
       name,
@@ -80,7 +92,7 @@ app.post('/users', async (req, res) => {
   }
 });
 
-app.post('/sessions', async (req, res) => {
+app.post('/sessions', loginLimiter, async (req, res) => {
   const user = await User.findOne({
     email: req.body.email
   });
@@ -96,7 +108,7 @@ app.post('/sessions', async (req, res) => {
   }
 });
 
-app.get('/secrets', authenticateUser, (req, res) => {
+app.get('/secrets', authLimiter, authenticateUser, (req, res) => {
   res.json({
     secret: 'This is a super secret message'
   });
