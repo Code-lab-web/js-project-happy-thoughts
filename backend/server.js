@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import bcrypt from 'bcrypt-nodejs';
 import bodyParser from 'body-parser';
 import crypto from "crypto";
+import rateLimit from "express-rate-limit";
 
 const mongoUrl = process.env.MONGO_URL || "mongodb://localhost/auth";
 mongoose.connect(mongoUrl);
@@ -45,6 +46,16 @@ const authenticateUser = async (req, res, next) => {
 const port = process.env.PORT || 8080;
 const app = express();
 
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // limit each IP to 5 login requests per windowMs
+  message: {
+    message: "Too many login attempts from this IP, please try again later."
+  },
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false   // Disable the `X-RateLimit-*` headers
+});
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
@@ -80,7 +91,7 @@ app.post('/users', async (req, res) => {
   }
 });
 
-app.post('/sessions', async (req, res) => {
+app.post('/sessions', loginLimiter, async (req, res) => {
   const user = await User.findOne({
     email: req.body.email
   });
