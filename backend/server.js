@@ -81,10 +81,16 @@ app.post('/users', async (req, res) => {
 });
 
 app.post('/sessions', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (typeof email !== "string") {
+    return res.status(400).json({ message: "Invalid email format" });
+  }
+
   const user = await User.findOne({
-    email: req.body.email
+    email: { $eq: email }
   });
-  if (user && bcrypt.compareSync(req.body.password, user.password)) {
+  if (user && bcrypt.compareSync(password, user.password)) {
     res.json({
       userId: user._id,
       accessToken: user.accessToken
